@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class ServiceProviderFramework {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        Class.forName("com.mysql.cj.jdbc.Driver"); // 클래스 로드
+        Class.forName("com.mysql.cj.jdbc.Driver"); // 클래스 로드. // java 1.6 이후부터는 생략가능
         /*
         // 로드시 아래와 같은 초기화 진행
 
@@ -37,6 +37,5 @@ public class ServiceProviderFramework {
 
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select~~");
-
     }
 }
