@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.WeakHashMap;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WeakHashMapTestTest {
@@ -69,21 +70,14 @@ class WeakHashMapTestTest {
     }
 
     @Test
-    void t1() throws InterruptedException {
-        WeakHashMap<String, String> map = null;
-        {
-            map = new WeakHashMap<>();
-            map.put(new String("abc"), "abc");
-            map.put(new String("efg"), "efg");
-        }
-
-//        System.out.println(map.get("abc"));
+    void weakHashMap_외부에서_참조하는변수가없다면_gc수행이후_모두제거된다() throws InterruptedException {
+        WeakHashMap<String, String> map = new WeakHashMap<>();;
+        map.put(new String("abc"), "abc");
+        map.put(new String("efg"), "efg");
 
         System.gc();
-        System.out.println(map);
         Thread.sleep(100);
 
-        assertNull(map.get("abc"));
-        assertNotNull(map.get("efg")); // 왜 null일까..
+        assertThat(map).isEmpty();
     }
 }
