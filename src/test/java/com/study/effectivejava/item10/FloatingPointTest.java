@@ -13,6 +13,8 @@ class FloatingPointTest {
         assertFalse(1.1f + 0.1f == 1.2d);
 
         assertTrue(1.25f == 1.25d); // 가수부가 길지않기에 (23bit보다 적기에) 문제발생안함
+        assertFalse((float)0.1 == 0.1);
+        assertFalse(Double.compare(0.1f, 0.1) == 0);
 
         System.out.printf("1.1f 의 이진수: %32s%n",Integer.toBinaryString(Float.floatToIntBits(1.1f))); // 가수부분 저장시 잘려나가는 데이터가있는 경우 반올림해서 저장(마지막이 1100으로 끝나야할것 같은데 1101로 저장되는이유)
         System.out.printf("0.1f 의 이진수: %32s%n",Integer.toBinaryString(Float.floatToIntBits(0.1f)));
