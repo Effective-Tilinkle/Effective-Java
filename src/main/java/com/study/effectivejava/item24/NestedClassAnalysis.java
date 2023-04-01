@@ -28,7 +28,10 @@ public class NestedClassAnalysis {
 
 //                int d = localVar; // 컴파일에러.. localVar이 final 일때만 가능.. 로직상 중간에 변경하는 부분 없으면 알아서 final로 가져감
             }
+
+//            static void staticMethod() {} // 컴파일에러.. static 멤버 가질수없음
         };
+
     }
 
     static void 익명클래스_정적문맥() {
@@ -37,7 +40,7 @@ public class NestedClassAnalysis {
 
         StaticMemberClass anonymousClass = new StaticMemberClass() { // 익명 클래스는 쓰이는 시점에 인스턴스 만들어짐
 //            static int staticVar = 3; // 컴파일 에러.. 정적멤버 가질 수 없음
-            final static int finalStaticVar = 3;  // 상수는 가질수 있음
+            public final static int finalStaticVar = 3;  // 상수는 가질수 있음
 
             int a = 5;
             void newMethod() {
@@ -50,6 +53,9 @@ public class NestedClassAnalysis {
 
 //                int d = localVar; // 컴파일에러.. localVar이 final 일때만 가능.. 로직상 중간에 변경하는 부분 없으면 알아서 final로 가져감
             }
+
+//            static void staticMethod() {} // 컴파일에러.. static 멤버 가질수없음
+
         };
 
 //        anonymousClass.newMethod(); // 컴파일에러.. 익명클래스 자신의 메서드의 인스턴스는 호출불가.. 익명클래스가 구현한 상위클래스만 사용가능
