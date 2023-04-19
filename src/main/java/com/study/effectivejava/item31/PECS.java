@@ -2,6 +2,8 @@ package com.study.effectivejava.item31;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Delayed;
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledFuture;
 
 public class PECS {
@@ -17,6 +19,25 @@ public class PECS {
         List rawtypeList = new ArrayList();
 
         swap(rawtypeList,1,2);
+
+
+        //////////////  제네릭 이해 안가는 부분..  /////////////////
+        List<CustomScheduledFuture<?>> fail = null;
+        List<CustomScheduledFuture<String>> success = null;
+
+//      CustomScheduledFuture<?> r = max_PECS적용안함(fail); // 컴파일에러.. 구체적으로 타입을 지정하지않으면 컴파일에러.. CustomScheduledFuture<?>와 같이 와일드카드를 쓰기위해서는 "max_PECS적용" 메서드와 같이 인자에서도 <? extends>로 해주어야하고, Comparable<? super E> 도 같이 해주어야한다..
+        CustomScheduledFuture<String> re = max_PECS적용안함(success); // 타입을 지정하면 정상동작
+
+        CustomScheduledFuture<?> customScheduledFuture = method_와일드카드받음(fail);
+        //////////////////////////////////////////////////////
+
+    }
+
+    interface CustomScheduledFuture<V> extends Comparable<CustomScheduledFuture<V>> { // Comparable을 직접 구현한다면, <E extends Comparable<? super E>> 대신, <E extends Comparable<E>> 이렇게만써도되지않을까하여 테스트하기위해 임시로 ScheduledFuture 구현해봄
+    }
+
+    static <E> E method_와일드카드받음(List<E> list) {
+        return null;
     }
 
     static <E extends Comparable<E>> E max_PECS적용안함(List<E> list) {
