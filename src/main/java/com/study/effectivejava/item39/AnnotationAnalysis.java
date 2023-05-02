@@ -23,6 +23,7 @@ public class AnnotationAnalysis {
     @Target(ElementType.METHOD)
     public @interface ExceptionTest {
         Class<? extends Throwable>[] value(); // 한정적 타입 토큰 활용. Throwable 포함 하위클래스로 제한.. 즉, 모든 예외(와 오류) 타입을 수용하는것
+        // 여러개 사용할때는 제네릭 배열을 사용할 수 있다!
     }
 
     static class Sample {
@@ -80,7 +81,7 @@ public class AnnotationAnalysis {
                         continue;
                     }
                     passed++;
-                } catch (InvocationTargetException wrappedEx) { // 테스트 메서드가 예외를 던지면 리플렉션 메커니즘이 InvocationTargetException으로 감싸서 다시 던진다.. 그래서 getCause 메서드를 통해 메서드 호출시 발생한 진짜 에러를 꺼내와야한
+                } catch (InvocationTargetException wrappedEx) { // (1)
                     Throwable realEx = wrappedEx.getCause();
                     if (m.isAnnotationPresent(ExceptionTest.class)) {
                         int oldPass = passed;
@@ -100,7 +101,7 @@ public class AnnotationAnalysis {
                         System.out.println(m + " 실패 : " + realEx);
                     }
 
-                } catch (Exception e) {
+                } catch (Exception e) { // (2)
                     e.printStackTrace();
                     System.out.println("잘못 사용한 @Test: " + m);
                 }
@@ -109,4 +110,13 @@ public class AnnotationAnalysis {
 
         System.out.printf("성공: %d, 실패: %d%n", passed, tests - passed);
     }
+
+    /*
+        (1) - @Test 선언한 메서드가 예외를 던지면 리플렉션 메커니즘이 InvocationTargetException으로 감싸서 다시 던진다.. 그래서 getCause 메서드를 통해 메서드 호출시 발생한 진짜 에러를 꺼내와야한
+            - 여기를 탔다는것은 @Test를 사용한것 자체는 이상 없다는것! 즉, @Test 선언한 메서드 내부에서 발생한 예외!
+
+        (2) - 여기를 타게되는것은 @Test 애너테이션을 잘못사용했을때인데, 인스턴스 메서드, 매개변수가 있는 메서드, 호출할 수 없는 메서드 등에 달았을때 나타날 수 있다
+     */
+
+
 }
