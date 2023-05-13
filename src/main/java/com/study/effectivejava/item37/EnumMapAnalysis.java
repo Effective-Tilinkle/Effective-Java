@@ -1,11 +1,9 @@
 package com.study.effectivejava.item37;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toMap;
@@ -70,7 +68,7 @@ public class EnumMapAnalysis {
             }
 
             private static final Map<Phase, Map<Phase, Transition>> transitionMap
-                    = Arrays.stream(values())
+                    = Stream.of(values())
                     .collect(groupingBy(
                                     t -> t.from
                                     , () -> new EnumMap<>(Phase.class)
