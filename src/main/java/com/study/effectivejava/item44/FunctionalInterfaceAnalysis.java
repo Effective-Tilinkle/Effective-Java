@@ -1,8 +1,10 @@
 package com.study.effectivejava.item44;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
+import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 
 
@@ -31,6 +33,10 @@ public class FunctionalInterfaceAnalysis {
 
         // 함수형 인터페이스의 이름만 다르고 동일한 람다형식을 받는 메서드가 오버로딩되어 있을 경우, 클라이언트가 별도의 형변환을 명시해주어야 사용가능한데, 해당 예시는 newLinkedHashMap을 보자
 
+
+        /////////////////////////////////////
+        BiFunction<String, String, B> biFunction = B::new;
+        TempFuncIntf tempFuncIntf = B::new;
 
     }
 
@@ -71,5 +77,14 @@ public class FunctionalInterfaceAnalysis {
         boolean remove(Map<K, V> map, Map.Entry<K, V> eldest);
     }
 
+
+    interface TempFuncIntf {
+        B apply(String a, String b);
+    }
+
+    static class B {
+        public B(String a, String b) {
+        }
+    }
 
 }
