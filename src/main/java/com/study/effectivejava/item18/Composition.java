@@ -27,7 +27,7 @@ public class Composition {
     }
 
     // 전달클래스
-    static class ForwardingSet<E> implements Set<E> {
+    public static class ForwardingSet<E> implements Set<E> {
         private final Set<E> s;
 
         public ForwardingSet(Set<E> set) {
